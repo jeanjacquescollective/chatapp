@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Installation Steps
 
-## Getting Started
+## Frontend (Next.js) - without pusher
 
-First, run the development server:
+1. Navigate to the frontend directory:
+    ```bash
+    cd frontend
+    ```
+2. Initialize a new Next.js project:
+    ```bash
+    npx create-next-app@latest
+    ```
+3. Follow the prompts to set up your Next.js project.
+4. Install socket.io-client for real-time communication:
+    ```bash
+    npm install socket.io-client
+    ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Install Nodemailer for sending emails:
+    ```bash
+    npm install nodemailer
+    ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+6. Create a configuration file for Nodemailer (e.g., `nodemailer.config.js`):
+    ```javascript
+    // nodemailer.config.js
+    const nodemailer = require('nodemailer');
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS,
+        },
+    });
 
-## Learn More
+    module.exports = transporter;
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+7. Add environment variables for your email credentials in a `.env` file:
+    ```
+    EMAIL_USER=your-email@gmail.com
+    EMAIL_PASS=your-email-password
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+8. Use Nodemailer in your application to send emails:
+    ```javascript
+    const transporter = require('./nodemailer.config');
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: 'recipient@example.com',
+        subject: 'Test Email',
+        text: 'This is a test email sent from Nodemailer.',
+    };
 
-## Deploy on Vercel
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return console.log(error);
+        }
+        console.log('Email sent: ' + info.response);
+    });
+    ```
+## Frontend (Next.js) - with pusher
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Navigate to the frontend directory:
+    ```bash
+    cd frontend
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. Initialize a new Next.js project:
+    ```bash
+    npx create-next-app@latest
+    ```
+
+3. Follow the prompts to set up your Next.js project.
+
+4. Install Pusher for real-time communication:
+    ```bash
+npm install @pusher/pusher-websocket-react-native
+    ```
+
+## Backend (Strapi)
+
+1. Navigate to the backend directory:
+    ```bash
+    cd backend
+    ```
+
+2. Create a new Strapi project:
+    ```bash
+    npx create-strapi-app@latest my-project --quickstart
+    ```
+
+3. Follow the prompts to set up your Strapi project.
+
+4. Install Pusher for real-time communication:
+    ```bash
+    npm install strapi-plugin-pusher
+    ```
+
+You have now set up Next.js in the frontend folder and Strapi in the backend folder, with Pusher installed for real-time communication.
