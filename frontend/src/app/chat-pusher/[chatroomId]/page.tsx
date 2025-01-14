@@ -23,7 +23,7 @@ const STRAPI_API_TOKEN = process.env.NEXT_PUBLIC_STRAPI_TOKEN || '';
 const Page = async ({ params }: PageProps) => {
     const session = await getServerSession(authOptions);
     const { chatroomId } = await params;
-    
+    console.log('chatroomId', chatroomId);
     const strapiToken = session?.user.strapiToken as string;
     const messages = (await fetchMessages(chatroomId, strapiToken) || []).map((message: any) => ({
         ...message,

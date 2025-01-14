@@ -1,6 +1,6 @@
 'use client'
 
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useActionState } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 import LoginButton from '../../../components/buttons/LoginButton'; // Adjust the path as necessary
 import {authenticate} from '../loginActions';
@@ -8,7 +8,7 @@ import {authenticate} from '../loginActions';
 
 
 export default function LoginForm() {
-    const [errorMessage, dispatch] = useFormState(authenticate, undefined);
+    const [errorMessage, dispatch] = useActionState(authenticate, undefined);
 
     return (
         <form action={dispatch} className="space-y-4">

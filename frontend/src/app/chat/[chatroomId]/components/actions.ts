@@ -1,7 +1,6 @@
 "use server";
 
 import { revalidatePath } from 'next/cache';
-import { Chatroom } from '@/types/Chatroom';
 import { gql, request } from 'graphql-request';
 import { Message } from '@/types/Message';
 
